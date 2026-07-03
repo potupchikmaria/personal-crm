@@ -360,14 +360,14 @@ def update_from_gmail_log(conn):
     """
     today = date.today()
     rows = conn.execute(
-        """SELECT l.contact_id, l.created_at FROM log l
+        """SELECT l.contact_id, l.ts FROM log l
            WHERE l.action='gmail_thread'
            ORDER BY l.id DESC"""
     ).fetchall()
     updated = 0
     for r in rows:
         try:
-            log_date = datetime.fromisoformat(r['created_at']).date()
+            log_date = datetime.fromisoformat(r['ts']).date()
             days = (today - log_date).days
         except:
             continue
